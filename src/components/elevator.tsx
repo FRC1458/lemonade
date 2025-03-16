@@ -18,7 +18,7 @@ export class Elevator extends Component<ElevatorProps> {
     componentDidMount() {
         this.updater = setInterval(() => {
             this.setState({
-                level: this.props.levelTopic.getValue() ? this.props.levelTopic.getValue()[2] : "Ground"
+                level: this.props.levelTopic.getValue() ? this.props.levelTopic.getValue() : "Ground"
             })
         }, 100);
     }
@@ -48,11 +48,13 @@ export class Elevator extends Component<ElevatorProps> {
             backgroundRepeat: 'no-repeat',
             filter: 'invert(1)',
             borderLeft: '10px solid black',
+            borderRight: '10px solid black',
+            borderTop: '10px solid black',
             borderRadius: '1.5%',
         };
 
         const levelStyle = {
-            width: '290px',
+            width: '300px',
             backgroundColor: 'black',
             height: '125px',
             transform: `translate(0, ${125*(4-levels[level])}px)`,

@@ -30,7 +30,7 @@ export class Field extends Component<FieldProps> {
         const { RobotPose } = this.state;
         
         const RobotStyle = {
-            transform: `translate(${RobotPose[0]-17}px, ${260-(RobotPose[1]+12)}px) rotate(${RobotPose[2]}deg)`,
+            transform: `translate(${(RobotPose[0]*32.8084)-12}px, ${248-(RobotPose[1]*32.8084)}px) rotate(${RobotPose[2]}deg)`,
             border: '5px solid white',
             width: '24px',
             height: '24px'
