@@ -11,14 +11,14 @@ export class Elevator extends Component<ElevatorProps> {
         super();
         this.props = props;
         this.state = {
-            level: this.props.levelTopic.getValue() ? this.props.levelTopic.getValue() : "Ground"
+            level: this.props.levelTopic.getValue() ? this.props.levelTopic.getValue() : "Resting"
         };
     }
 
     componentDidMount() {
         this.updater = setInterval(() => {
             this.setState({
-                level: this.props.levelTopic.getValue() ? this.props.levelTopic.getValue() : "Ground"
+                level: this.props.levelTopic.getValue() ? this.props.levelTopic.getValue() : "Resting"
             })
         }, 100);
     }
@@ -30,7 +30,7 @@ export class Elevator extends Component<ElevatorProps> {
         const { level } = this.state;
         
         const levels = {
-            "Ground": 1,
+            "Resting": 1,
             "L2": 2,
             "L3": 3,
             "L4": 4,

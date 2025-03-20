@@ -6,8 +6,9 @@ import { Limelights } from './components/limelights';
 import { RobotMode } from './components/robotMode';
 
 import './style.css';
-import { NetworkTables, NetworkTablesTypeInfos } from 'ntcore-ts-client';
+import { NetworkTables, NetworkTablesTopic, NetworkTablesTypeInfos } from 'ntcore-ts-client';
 import { Field } from './components/field';
+import { AutoSelector } from './components/autoSelector';
 
 let ntcore = NetworkTables.getInstanceByTeam(1458);
 
@@ -34,6 +35,22 @@ let gameID = gameMode.subscribe((value) => {
 	console.log(`Subscribed to game mode with ${value} as current game mode.`);
 });
 
+let autoMode = ntcore.createTopic<string>("/SmartDashboard/Auto Mode/active", NetworkTablesTypeInfos.kString);
+let autoID = autoMode.subscribe((value) => {
+	console.log(`Subscribed to auto mode with ${value} as current auto mode.`);
+});
+
+async function publish() {
+	await autoMode.publish();
+}
+
+publish()
+
+let autoOptions = ntcore.createTopic<string[]>("/SmartDashboard/Auto Mode/options", NetworkTablesTypeInfos.kStringArray);
+let autoOptionsID = autoOptions.subscribe((value) => {
+	console.log(`Subscribed to auto options with ${value} as current auto options.`);
+});
+
 export function App() {
 	return (
 		<main id="main">
@@ -55,7 +72,9 @@ export function App() {
 				<div id="mainbar-middle">
 					<Field RobotPoseTopic={poseTopic} />
 				</div>
-				<div id="mainbar-bottom"></div>
+				<div id="mainbar-bottom">
+					<AutoSelector mode={autoMode} options={autoOptions} />
+				</div>
 			</div>
 		</main>
 	);
@@ -65,6 +84,8 @@ poseTopic.unsubscribe(poseID);
 limelights.forEach((topic, index) => topic.unsubscribe(limelightIDs[index]));
 elevatorState.unsubscribe(elevatorID);
 gameMode.unsubscribe(gameID);
+autoMode.unsubscribe(autoID);
+autoOptions.unsubscribe(autoOptionsID);
 
 if (typeof window !== 'undefined') {
 	hydrate(<App />, document.getElementById('app'));
