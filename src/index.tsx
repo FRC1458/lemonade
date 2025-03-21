@@ -25,17 +25,17 @@ let poseID = poseTopic.subscribe((value) => {
 });
 let limelightIDs = limelights.map((topic, index) => topic.subscribe((value) => console.log(`Subscribed to limelight ${index} topic with ${value} degrees as latest rotation`)));
 
-let elevatorState = ntcore.createTopic<string>('/SmartDashboard/State', NetworkTablesTypeInfos.kString);
+let elevatorState = ntcore.createTopic<string>('/SmartDashboard/State', "string");
 let elevatorID = elevatorState.subscribe((value) => {
 	console.log(`Subscribed to elevator state with ${value} as latest state`);
 });
 
-let gameMode = ntcore.createTopic<string>("/SmartDashboard/gameMode", NetworkTablesTypeInfos.kString);
+let gameMode = ntcore.createTopic<string>("/SmartDashboard/gameMode", "string");
 let gameID = gameMode.subscribe((value) => {
 	console.log(`Subscribed to game mode with ${value} as current game mode.`);
 });
 
-let autoMode = ntcore.createTopic<string>("/SmartDashboard/Auto Mode/active", NetworkTablesTypeInfos.kString);
+let autoMode = ntcore.createTopic<string>("/SmartDashboard/Auto Mode/active", "string");
 let autoID = autoMode.subscribe((value) => {
 	console.log(`Subscribed to auto mode with ${value} as current auto mode.`);
 });
@@ -46,7 +46,7 @@ async function publish() {
 
 publish()
 
-let autoOptions = ntcore.createTopic<string[]>("/SmartDashboard/Auto Mode/options", NetworkTablesTypeInfos.kStringArray);
+let autoOptions = ntcore.createTopic<string[]>("/SmartDashboard/Auto Mode/options", "string[]");
 let autoOptionsID = autoOptions.subscribe((value) => {
 	console.log(`Subscribed to auto options with ${value} as current auto options.`);
 });

@@ -13,7 +13,7 @@ export class AutoSelector extends Component<AutoProps> {
         this.props = props;
         this.state = {
             mode: this.props.mode.getValue() ? this.props.mode.getValue() : "",
-            options: this.props.options.getValue() ? this.props.mode.getValue() : [""]
+            options: this.props.options.getValue() ? this.props.options.getValue() : [""]
         };
     }
 
@@ -21,7 +21,7 @@ export class AutoSelector extends Component<AutoProps> {
         this.updater = setInterval(() => {
             this.setState({
                 mode: this.props.mode.getValue() ? this.props.mode.getValue() : "",
-                options: this.props.options.getValue() ? this.props.mode.getValue() : [""]
+                options: this.props.options.getValue() ? this.props.options.getValue() : [""]
             })
         }, 100);
     }
