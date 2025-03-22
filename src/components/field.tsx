@@ -28,10 +28,13 @@ export class Field extends Component<FieldProps> {
     }
     render() {
         const { RobotPose } = this.state;
+        let alliance = "blue";
         
         const RobotStyle = {
-            transform: `translate(${(RobotPose[0]*32.8084)-12}px, ${248-(RobotPose[1]*32.8084)}px) rotate(${RobotPose[2]}deg)`,
-            border: '5px solid white',
+            transformOrigin: 'center',
+            transform: `translate(${(RobotPose[0]*32.8084)-12}px, ${248-(RobotPose[1]*32.8084)}px) rotate(${alliance = "blue" ? RobotPose[2] + 180 : RobotPose[2]}deg)`,
+            border: '5px solid',
+            borderColor: 'white red white white',
             width: '24px',
             height: '24px'
         }
