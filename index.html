@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Lemonade</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			.alert {
+				padding: 20px;
+				background-color: #f38ba8;
+				color: white;
+				margin-bottom: 15px;
+				transition: opacity 0.6s;
+				position: fixed;
+				top: 1vh;
+				left: 42.5vw;
+				right: 42.5vw;
+			}
+
+			.closebtn {
+				margin-left: 15px;
+				color: white;
+				font-weight: bold;
+				float: right;
+				font-size: 22px;
+				line-height: 20px;
+				cursor: pointer;
+				transition: 0.3s;
+			}
+
+			.closebtn:hover {
+				color: black;
+			}
+
+			body {
+				background-color: #1e1e2e;
+				color: #cdd6f4;
+			}
+
+			#sidebar {
+				background-color: #11111b;
+				width: 25vw;
+				position: fixed;
+				left: 0;
+				top: 0;
+				bottom: 0;
+			}
+
+			#content {
+				width: 75vw;
+				position: fixed;
+				right: 0;
+				top: 0;
+				bottom: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="alert" id="connected" style="opacity: 0">
+			<span class="closebtn" onclick="dismissAlert()">&times;</span>
+			<div id="connectedText"><strong>Alert!</strong> Robot Connected!</div>
+		</div>
+
+		<div id="sidebar"></div>
+		<div id="content"></div>
+
+		<script src="/networktables/networktables.js"></script>
+
+		<script type="module">
+			NetworkTables.addRobotConnectionListener((connected) => {
+				if (!connected) {
+					document.getElementById('connectedText').innerHTML =
+						'<strong>Alert!</strong> Robot Disconnected';
+				}
+
+				var alertDiv = document.getElementById('connected');
+				alertDiv.style.display = 'block';
+				alertDiv.style.opacity = '1';
+
+				setTimeout(function () {
+					alertDiv.style.opacity = '0';
+				}, 3000);
+
+				setTimeout(function () {
+					alertDiv.style.display = 'none';
+				}, 3600);
+			}, true);
+		</script>
+	</body>
+</html>
