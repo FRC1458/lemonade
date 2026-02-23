@@ -1,0 +1,33 @@
+{
+	"cameras": {
+		"left": "/vision/left",
+		"right": "/vision/right",
+		"back": "/vision/back"
+	},
+	"robot": "/SmartDashboard/Field/Robot",
+	"motors": {
+		"Shooter/Left": {
+			"Top": "/AdvantageKit/ShooterLeft/TopMotor",
+			"Bottom": "/AdvantageKit/ShooterLeft/BottomMotor",
+			"Feeder": "/AdvantageKit/Indexer Left/Motor"
+		},
+		"Shooter/Right": {
+			"Top": "/AdvantageKit/ShooterRight/TopMotor",
+			"Bottom": "/AdvantageKit/ShooterRight/BottomMotor",
+			"Feeder": "/AdvantageKit/Indexer Right/Motor"
+		},
+		"Indexer": "/AdvantageKit/Roller/Motor",
+		"Drive Motors": {
+			"BL": "/AdvantageKit/Drive/Modules/BL/DriveMotor",
+			"BR": "/AdvantageKit/Drive/Modules/BR/DriveMotor",
+			"FL": "/AdvantageKit/Drive/Modules/FL/DriveMotor",
+			"FR": "/AdvantageKit/Drive/Modules/FR/DriveMotor"
+		},
+		"Azi Motors": {
+			"BL": "/AdvantageKit/Drive/Modules/BL/AzimuthMotor",
+			"BR": "/AdvantageKit/Drive/Modules/BR/AzimuthMotor",
+			"FL": "/AdvantageKit/Drive/Modules/FL/AzimuthMotor",
+			"FR": "/AdvantageKit/Drive/Modules/FR/AzimuthMotor"
+		}
+	}
+}
