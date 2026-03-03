@@ -68,6 +68,7 @@
 			margin: 0;
 			height: 100vh;
 			position: relative;
+			overflow-x: hidden;
 		}
 
 		#cameras {
@@ -79,6 +80,7 @@
 			font-size: 1.5vh;
 			position: fixed;
 			top: 7.5vh;
+			font-size: 13pt;
 		}
 
 		#cameras>div {
@@ -95,7 +97,7 @@
 		#motors {
 			text-align: center;
 			position: absolute;
-			bottom: 10vh;
+			bottom: 20vh;
 			right: 2.5vw;
 			left: 2.5vw;
 			display: flex;
@@ -118,12 +120,19 @@
 		}
 
 		#field {
-			background-image: url("/assets/img/field.png");
+			background-image: url("/assets/img/field.svg");
 			background-size: contain;
 			background-repeat: no-repeat;
-			width: 65vw;
-			height: 30vh;
+			width: 50vw;
+			height: calc(155vw / 6);
 			margin: auto;
+			position: absolute;
+			top: calc(((100vh - (155vw / 6)) / 2) - 20vh);
+			left: 12.5vw;
+		}
+
+		#robotField {
+			border: 2px solid white;
 		}
 	</style>
 </head>
@@ -141,6 +150,8 @@
 
 		<div id="robot">
 		</div>
+
+		<div id="stream"></div>
 	</div>
 	<div id="content">
 		<div id="field">
@@ -149,6 +160,7 @@
 		<div id="motors"></div>
 	</div>
 
+	<script src="/assets/js/jquery-4.0.0.min.js"></script>
 	<script src="/networktables/networktables.js"></script>
 
 	<script type="module">
@@ -190,19 +202,37 @@
 					newCamera.innerHTML = camera + " -- Disconnected";
 					newCamera.style.textTransform = "capitalize";
 
-					NetworkTables.addKeyListener(data.cameras[camera], (_, status, isNew) => {
-						newCamera.innerHTML = camera + " -- " + status;
-					}, true);
+					setInterval(() => {
+						let value = NetworkTables.getValue(data.cameras[camera]);
+						if (value == undefined) {
+							newCamera.innerHTML = camera + " -- Disconnected";
+						} else {
+							newCamera.innerHTML = `${camera} -- ${value == false ? "No Target" : "Tracking"}`
+						}
+					}, 1000);
 
 					container.appendChild(newCamera);
 				})
+
+				let pose = NetworkTables.getValue(data.robot, [0,0,0]);
+				let x = pose[0];
+				let y = pose[1];
+				let theta = pose[2];
+
+				let robot = document.getElementById("robotField");
+				let offset = [0, 0];
+				robot.style.width = `calc((50vw / 726) * ${data["field"]["width"]})`;
+				robot.style.height = `calc((50vw / 726) * ${data["field"]["height"]})`;
+					robot.style.transform = `translate(${Math.floor(x * 39.3701 * (50 / 726) * 100)/100}vw, ${Math.floor(y * 39.3701 * (50/ 726) * 100)/100}vw) rotate(${theta * 180 / Math.PI}deg)`;
+				document.getElementById("robot").style.transform = `rotate(${theta * 180 / Math.PI}deg)`
 
 				NetworkTables.addKeyListener(data.robot, (_, pose, isNew) => {
 					let x = pose[0];
 					let y = pose[1];
 					let theta = pose[2];
 
-					document.getElementById("robot").style.transform = `rotate(${theta * 180 / Math.PI}deg)`
+					document.getElementById("robot").style.transform = `rotate(${theta * 180 / Math.PI}deg)`;
+					robot.style.transform = `translate(${Math.floor(x * 39.3701 * (50 / 726) * 100)/100}vw, ${Math.floor(y * 39.3701 * (50/ 726) * 100)/100}vw) rotate(${theta * 180 / Math.PI}deg)`;
 				})
 
 				Object.keys(data.motors).forEach(motor => {
@@ -219,6 +249,8 @@
 					if (typeof data.motors[motor] == "object") {
 						Object.keys(data.motors[motor]).forEach(item => {
 							let subItem = document.createElement('p');
+
+							subItem.innerHTML = `${item} - ${NetworkTables.getValue(data.motors[motor][item] + "/TemperatureCelsius", "0")}&deg;C`
 
 							NetworkTables.addKeyListener(
 								data.motors[motor][item] + "/TemperatureCelsius",
@@ -243,6 +275,15 @@
 					innerContainer.appendChild(newMotorGroup);
 					container.appendChild(innerContainer);
 				})
+
+				if (data["stream"]) {
+					let img = document.createElement('img');
+					img.src = data["stream"]["image"];
+					img.width = data["stream"]["width"];
+					img.height = data["stream"]["height"];
+
+					document.getElementById("stream").appendChild(img)
+				}
 			})
 	</script>
 </body>

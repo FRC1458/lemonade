@@ -1,22 +1,21 @@
 {
 	"cameras": {
-		"left": "/vision/left",
-		"right": "/vision/right",
-		"back": "/vision/back"
+		"left": "/photonvision/orangelight/hasTarget",
+		"right": "/photonvision/lemonlight/hasTarget"
 	},
 	"robot": "/SmartDashboard/Field/Robot",
 	"motors": {
 		"Shooter/Left": {
 			"Top": "/AdvantageKit/ShooterLeft/TopMotor",
 			"Bottom": "/AdvantageKit/ShooterLeft/BottomMotor",
-			"Feeder": "/AdvantageKit/Indexer Left/Motor"
+			"Feeder": "/AdvantageKit/Roller/Motor"
 		},
 		"Shooter/Right": {
 			"Top": "/AdvantageKit/ShooterRight/TopMotor",
 			"Bottom": "/AdvantageKit/ShooterRight/BottomMotor",
 			"Feeder": "/AdvantageKit/Indexer Right/Motor"
 		},
-		"Indexer": "/AdvantageKit/Roller/Motor",
+		"Intake": "/AdvantageKit/Intake/WheelMotor",
 		"Drive Motors": {
 			"BL": "/AdvantageKit/Drive/Modules/BL/DriveMotor",
 			"BR": "/AdvantageKit/Drive/Modules/BR/DriveMotor",
@@ -29,5 +28,14 @@
 			"FL": "/AdvantageKit/Drive/Modules/FL/AzimuthMotor",
 			"FR": "/AdvantageKit/Drive/Modules/FR/AzimuthMotor"
 		}
+	},
+	"stream": {
+		"image": "http://photonvision.local:1184/?action=stream",
+		"width": 320,
+		"height": 240
+	},
+	"field": {
+		"width": 27.5,
+		"height": 27.25
 	}
 }
